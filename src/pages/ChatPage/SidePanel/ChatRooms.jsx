@@ -21,7 +21,6 @@ const ChatRooms = () => {
 
   const {currentUser} = useSelector(state => state.user);
   const dispatch = useDispatch();
-  console.log(chatRooms);
 
   useEffect(()=>{
     addChatRoomsListeners();

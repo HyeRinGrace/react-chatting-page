@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './RegisterPage.css';
 import { useForm } from 'react-hook-form';
 import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
 import app from '../../firebase';
 import md5 from 'md5';
 import { ref, set } from 'firebase/database';
 import { db } from '../../firebase';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/userSlice';
+import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap'; // Bootstrap 추가
 
 const RegisterPage = () => {
   const auth = getAuth(app);
   const [loading, setLoading] = useState(false);
   const [errorFromSubmit, setErrorFromSubmit] = useState('');
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -29,6 +32,14 @@ const RegisterPage = () => {
         photoURL: `http://gravatar.com/avatar/${md5(createdUser.user.email)}?d=identicon`
       });
 
+      const userData = {
+        uid: createdUser.user.uid,
+        displayName: createdUser.user.displayName,
+        photoURL: createdUser.user.photoURL,
+      }
+
+      dispatch(setUser(userData));
+
       set(ref(db, `users/${createdUser.user.uid}`), {
         name: createdUser.user.displayName,
         image: createdUser.user.photoURL
@@ -45,58 +56,61 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className='auth-wrapper'>
-      <div className='auth-inner'>
-        <h3>Register</h3>
-        <form className='FormLogin' onSubmit={handleSubmit(onSubmit)}>
-          <div className='form-group'>
-            <label>Email</label>
-            <input
-              name='email'
-              type='email'
-              className='form-control'
-              {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
-            />
-            {errors.email && <span className='error'>This email field is required.</span>}
+    <Container className='auth-container'>
+      <Row className='justify-content-center'>
+        <Col md={6}>
+          <div className='auth-wrapper'>
+            <div className='auth-inner'>
+              <h2 style={{paddingBottom:10}}>회원가입</h2>
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                <Form.Group className='mb-3'>
+                  <Form.Label>이메일</Form.Label>
+                  <Form.Control
+                    name='email'
+                    type='email'
+                    {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+                  />
+                  {errors.email && <Form.Text className='text-danger'>This email field is required.</Form.Text>}
+                </Form.Group>
+                <Form.Group className='mb-3'>
+                  <Form.Label>이름</Form.Label>
+                  <Form.Control
+                    type='text'
+                    name='name'
+                    {...register('name', { required: true, maxLength: 10 })}
+                  />
+                  {errors.name && errors.name.type === 'required' && <Form.Text className='text-danger'>This name field is required</Form.Text>}
+                  {errors.name && errors.name.type === 'maxLength' && (
+                    <Form.Text className='text-danger'>Your input exceeds the maximum length</Form.Text>
+                  )}
+                </Form.Group>
+                <Form.Group className='mb-3'>
+                  <Form.Label>비밀번호</Form.Label>
+                  <Form.Control
+                    type='password'
+                    name='password'
+                    {...register('password', { required: true, minLength: 6 })}
+                  />
+                  {errors.password && errors.password.type == 'required' && (
+                    <Form.Text className='text-danger'>Your password field is required</Form.Text>
+                  )}
+                  {errors.password && errors.password.type == 'minLength' && (
+                    <Form.Text className='text-danger'>Password must have at least 6 characters</Form.Text>
+                  )}
+                  {errorFromSubmit && <Alert variant='danger'>{errorFromSubmit}</Alert>}
+                </Form.Group>
+                <Button type='submit' variant='warning' disabled={loading} className='mb-3'>
+                  {loading ? 'Loading...' : '회원가입'}
+                </Button>
+                <div>
+                  이미 계정이 있으신가요? <Link to='/login'>로그인 하러 가기</Link>
+                </div>
+              </Form>
+            </div>
           </div>
-          <div className='form-group'>
-            <label>Name</label>
-            <input
-              type='text'
-              name='name'
-              className='form-control'
-              {...register('name', { required: true, maxLength: 10 })}
-            />
-            {errors.name && errors.name.type === 'required' && <span className='error'>This name field is required</span>}
-            {errors.name && errors.name.type === 'maxLength' && (
-              <span className='error'>Your input exceeds the maximum length</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label>Password</label>
-            <input
-              type='password'
-              name='password'
-              className='form-control'
-              {...register('password', { required: true, minLength: 6 })}
-            />
-            {errors.password && errors.password.type == 'required' && (
-              <span className='error'>Your password field is required</span>
-            )}
-            {errors.password && errors.password.type == 'minLength' && (
-              <span className='error'>Password must have at least 6 characters</span>
-            )}
-            {errorFromSubmit && <p className='error'>{errorFromSubmit}</p>}
-          </div>
-          <button type='submit' className='btn btn-primary' disabled={loading}>
-            {loading ? 'Loading...' : 'Register'}
-          </button>
-          <Link to={'/login'} style={{ color: 'gray', textDecoration: 'none' }}>
-            <div>Already have an account?</div>
-          </Link>
-        </form>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

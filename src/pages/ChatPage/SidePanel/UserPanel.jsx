@@ -100,9 +100,9 @@ uploadTask.on('state_changed',
 
   return (
     <div>
-      <h3 style={{ color: 'white' }}>
-        Chat App
-      </h3>
+      <h2 style={{ color: 'white' }}>
+        Study Chat
+      </h2>
       <div style={{display:'flex', marginBottom:'1rem'}}>
         <Image src={currentUser.photoURL} roundedCircle style={{ width: 30, height: 30, marginTop: 3 }} />
         <Dropdown>

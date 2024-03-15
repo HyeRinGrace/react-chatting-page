@@ -1,5 +1,5 @@
 import React, { useState,useRef } from 'react'
-import { child, push, ref as dbRef, set, serverTimestamp } from 'firebase/database';
+import { child, push, ref as dbRef, set, serverTimestamp, remove } from 'firebase/database';
 import {useSelector} from 'react-redux'; 
 import { db, storage } from '../../../firebase';
 import { getDownloadURL, ref as strRef, uploadBytesResumable} from 'firebase/storage';
@@ -132,17 +132,31 @@ const handleUploadImage = (event)=>{
 );
   }
 
+
+  //텍스트 정보 데이터 베이스에 정보 넣기
+  const handleChange = (event) =>{
+    setContent(event.target.value);
+
+    if(event.target.value){
+      set(dbRef(db,`typing/${currentChatRoom.id}/${currentUser.uid}`),{
+        userUid : currentUser.displayName
+      })
+    }else{
+      remove(dbRef(db,`typing/${currentChatRoom.id}/${currentUser.uid}`));
+    }
+  }
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <textarea style={{
           width:'100%',
-          height:90,
-          border:'0.2rem solid rgb(235,236,236)',
+          height:70,
+          border:'0.2rem solid #ececec',
           borderRadius:4,
         }}
         value={content}
-        onChange={(e)=>setContent(e.target.value)}/>
+        onChange={handleChange}/>
 
         {
           !(percentage === 0 || percentage === 100) &&
@@ -160,6 +174,7 @@ const handleUploadImage = (event)=>{
               width:'100%',
               fontSize:20,
               fontWeight:'bold',
+              backgroundColor:'#f0b023'
             }}
             disabled={loading}
             >
@@ -174,6 +189,7 @@ const handleUploadImage = (event)=>{
               width:'100%',
               fontSize:20,
               fontWeight:'bold',
+              backgroundColor:'#f0b023'
             }}
             disabled={loading}
             >

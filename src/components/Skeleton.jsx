@@ -2,8 +2,8 @@ import React from 'react'
 
 const Skeleton = () => {
   return (
-    <div>
-      
+    <div className='skeleton'>
+
     </div>
   )
 }

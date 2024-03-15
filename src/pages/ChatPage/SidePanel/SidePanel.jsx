@@ -7,7 +7,7 @@ import DirectMessage from '../SidePanel/DirectMessages';
 const SidePanel = () => {
   return (
     <div style={{
-      backgroundColor:'#7B83EB',
+      backgroundColor:'#F0b023',
       padding: '2rem',
       minHeight:'100vh',
       color:'white',
