@@ -8,7 +8,7 @@ import { ref, set } from 'firebase/database';
 import { db } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/userSlice';
-import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap'; // Bootstrap 추가
+import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 
 const RegisterPage = () => {
   const auth = getAuth(app);
@@ -58,10 +58,10 @@ const RegisterPage = () => {
   return (
     <Container className='auth-container'>
       <Row className='justify-content-center'>
-        <Col md={6}>
+        <Col xs={12} md={6}> {/* Adjusted column size for mobile */}
           <div className='auth-wrapper'>
             <div className='auth-inner'>
-              <h2 style={{paddingBottom:10}}>회원가입</h2>
+              <h2 style={{ paddingBottom: 10 }}>회원가입</h2>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group className='mb-3'>
                   <Form.Label>이메일</Form.Label>
@@ -91,10 +91,10 @@ const RegisterPage = () => {
                     name='password'
                     {...register('password', { required: true, minLength: 6 })}
                   />
-                  {errors.password && errors.password.type == 'required' && (
+                  {errors.password && errors.password.type === 'required' && (
                     <Form.Text className='text-danger'>Your password field is required</Form.Text>
                   )}
-                  {errors.password && errors.password.type == 'minLength' && (
+                  {errors.password && errors.password.type === 'minLength' && (
                     <Form.Text className='text-danger'>Password must have at least 6 characters</Form.Text>
                   )}
                   {errorFromSubmit && <Alert variant='danger'>{errorFromSubmit}</Alert>}
