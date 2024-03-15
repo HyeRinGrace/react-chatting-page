@@ -150,7 +150,7 @@ const ChatRooms = () => {
           <Button variant='secondary' onClick={()=>setShow(false)}>
             취소
           </Button>
-          <Button variant='primary' onClick={handleSubmit}>
+          <Button variant='warning' onClick={handleSubmit}>
             생성
           </Button>
         </Modal.Footer>

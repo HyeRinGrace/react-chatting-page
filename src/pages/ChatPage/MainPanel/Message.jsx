@@ -29,7 +29,7 @@ const Message = ({message,user}) => {
       />
     <div style={{marginLeft:10}}>
       <h6 style={{
-          color:isMessageMine(message,user) ? "rgb(123,131,235)":""
+          color:isMessageMine(message,user) ? "#f0b023":""
         }}
       
       >{message.user.name}{" "}
