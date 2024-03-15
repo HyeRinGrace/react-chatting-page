@@ -11,11 +11,12 @@ import { setUser } from '../../store/userSlice';
 import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 
 const RegisterPage = () => {
-  const auth = getAuth(app);
+  const auth = getAuth(app); //firebase.js에서 app 컴포넌트 가져오기
   const [loading, setLoading] = useState(false);
-  const [errorFromSubmit, setErrorFromSubmit] = useState('');
-  const dispatch = useDispatch();
+  const [errorFromSubmit, setErrorFromSubmit] = useState(''); //에러메세지를 담아줄 state 선언
+  const dispatch = useDispatch(); //데이터 보내기
 
+  //유효성 체크를 해주는 react-hook-form /register은 input을 생성시켜줌. 
   const {
     register,
     formState: { errors },

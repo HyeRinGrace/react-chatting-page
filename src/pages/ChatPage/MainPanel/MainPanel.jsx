@@ -136,12 +136,17 @@ const MainPanel = () => {
     </span>
   ))
 
-  const renderMessageSkeleton = (loading)=>
-    loading&&(
-      <>
-        <Skeleton/>
-      </>
-    )
+  const renderMessageSkeleton = (loading) => {
+    if (loading && messages.length === 0) {
+      return <div style={{display:'flex', justifyContent:'center',alignItems:'center',color:'gray'}}>내용이 없습니다.</div>;
+    }
+  
+    if (loading) {
+      return <Skeleton />;
+    }
+  
+    return null;
+  };
   
   return (
     <div style={{padding:'2rem 2rem 0 2rem'}}>
