@@ -22,7 +22,7 @@ const LoginPage = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      await signInWithEmailAndPassword(auth, data.email, data.password); //signWith firebase 제공함수, 로그인함수
     } catch (error) {
       console.error(error);
       setErrorFromSubmit(error.message);
