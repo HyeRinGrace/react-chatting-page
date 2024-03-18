@@ -138,7 +138,7 @@ const MainPanel = () => {
 
   const renderMessageSkeleton = (loading) => {
     if (loading && messages.length === 0) {
-      return <div style={{display:'flex', justifyContent:'center',alignItems:'center',color:'gray'}}>내용이 없습니다.</div>;
+      return <div>내용이 없습니다.</div>;
     }
   
     if (loading) {

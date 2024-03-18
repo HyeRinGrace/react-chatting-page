@@ -45,7 +45,7 @@ const MessageForm = () => {
   //메세지 객체
   const createMessage = (fileURL = null) =>{
     const message = {
-      timestamp : serverTimestamp(),
+      timestamp : serverTimestamp(), //firebase 시간 생성 함수
       user:{
         id: currentUser.uid,
         name:currentUser.displayName,

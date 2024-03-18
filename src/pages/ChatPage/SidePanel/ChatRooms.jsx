@@ -25,7 +25,7 @@ const ChatRooms = () => {
   useEffect(()=>{
     addChatRoomsListeners();
     return()=>{
-      off(chatRoomsRef);
+      off(chatRoomsRef); //event Listener Clean Up
     }
   },[]);
 
@@ -34,7 +34,7 @@ const ChatRooms = () => {
 
     //유료성 체크
     if(isFormValid(name,description)){
-      const key = push(chatRoomsRef).key;
+      const key = push(chatRoomsRef).key; //id를 자동으로 생성시켜줌 push 는 파이어베이스 함수임
 
       const newChatRoom = {
         id:push(chatRoomsRef).key,
@@ -47,7 +47,7 @@ const ChatRooms = () => {
       }
 
       try {
-        await update(child(chatRoomsRef, key), newChatRoom);
+        await update(child(chatRoomsRef, key), newChatRoom); //chat룸 키 안에다가 데이터를 넣어줘야함 newChatroom 실제로 넣어줄 데이터
         setName('');
         setDescription('');
         setShow(false);
@@ -58,6 +58,7 @@ const ChatRooms = () => {
 
   }
 
+  //Add 된 데이터를 listener로 받아오는 과정
   const addChatRoomsListeners = () =>{
     let chatRoomsArray = [];
 
@@ -83,6 +84,7 @@ const ChatRooms = () => {
 
   }
 
+  // 채팅방 생성 시, 유효성 체크
   const isFormValid = (name,description)=> name && description;
 
   const changeChatRoom = (room)=>{

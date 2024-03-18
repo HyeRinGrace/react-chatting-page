@@ -17,7 +17,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    const unsubscribe = onAuthStateChanged(auth,(user)=>{
+    const unsubscribe = onAuthStateChanged(auth,(user)=>{// onAuth 인증된 사람만 이동되게
       if(user){
         navigate('/');
         dispatch(userSlice.actions.setUser({
@@ -31,7 +31,7 @@ function App() {
       }
     })
     return () =>{
-      unsubscribe();
+      unsubscribe(); // Unsubscribe로 등록해준 부분을 없애주는 부분
     }
   },[auth])
 
