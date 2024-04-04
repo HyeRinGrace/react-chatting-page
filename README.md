@@ -17,7 +17,7 @@
 
 ### 사용 스킬
 
--  Vue, react-hook-form, react-router-dom, md5,firebase, bootstrap
+-  Vite, react-hook-form, react-router-dom, md5,firebase, bootstrap
 
 ### Problems
 
